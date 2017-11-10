@@ -1,7 +1,7 @@
 var express = require('express');
 var app = express();
 var mongoose = require("mongoose");
-var nodeadmin = require('nodeadmin');
+//var nodeadmin = require('nodeadmin');
 var bodyParser = require("body-parser");
 /*var User = require("./models/user");
 var Videogame = require("./models/videogame");
@@ -33,7 +33,7 @@ app.get('/register', function(req, res){
   res.render('register');
 })
 
-app.use(nodeadmin(app));
+//app.use(nodeadmin(app));
  
 app.listen(process.env.PORT, process.env.IP, function(){
     console.log("app Has Started!");

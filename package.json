@@ -1,0 +1,19 @@
+{
+  "name": "item-tracker",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "dependencies": {
+    "express": "^3.2.6",
+    "mongodb": "^2.2.33",
+    "mongoose": "^4.12.1",
+    "mysql": "^2.15.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "George Koutroumpis",
+  "license": "ISC"
+}

@@ -1,0 +1,8 @@
+Goal: Develop a Web Application that will keep track of a users video game collection & display a selling price from a 3rd party
+
+
+1. Create FE
+    a. Log in, sign up 
+    b. 
+3. Create Tables
+ a. Users, Videogame, Systems, Genre

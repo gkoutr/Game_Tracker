@@ -5,15 +5,15 @@
     <form class="ui form" action="/items" method="POST">
         <div class="field">
             <label>Title</label>
-            <input type = "text" name="title" placeholder="Title">    
+            <input type = "text" name="game[title]" placeholder="Title">    
         </div>
         <div class="field">
             <label>Console</label>
-             <input type = "text" name="console" placeholder="Console">
+             <input type = "text" name="game[console]" placeholder="Console">
         </div>
         <div class="field">
             <div class="ui checkbox">
-              <input type="checkbox" tabindex="0">
+              <input type="checkbox" tabindex="0" name="game[used]">
               <label>Used?</label>
             </div>
         </div>

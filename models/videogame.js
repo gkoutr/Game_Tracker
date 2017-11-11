@@ -4,7 +4,7 @@ var mongoose = require('mongoose');
 var videogameSchema = new mongoose.Schema({
   title: String,
   console: String,
-  used: Boolean(true),
+  used: Boolean,
   created: {type: Date, default: Date.now}
 });
 

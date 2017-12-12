@@ -1,18 +1,19 @@
 var express = require('express');
-var app = express();
 var mongoose = require("mongoose");
 var nodeadmin = require('nodeadmin');
 var bodyParser = require("body-parser");
 var expressSanitizer = require("express-sanitizer");
+var methodOverride = require("method-override");
+var app = express();
 var User = require("./models/user");
 var Videogame = require("./models/videogame");
 
 mongoose.connect("mongodb://localhost/item_tracker_app");
-app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
+app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("styles"));
 app.use(expressSanitizer());
-
+app.use(methodOverride("_method"));
 
 /*Videogame.create({
   name: "Super Smash Bros.",
@@ -30,6 +31,7 @@ app.get('/', function (req, res) {
   res.redirect("/items");
 })
 
+//INDEX ROUTE
 app.get('/items', function (req, res){
   res.render("index");
 });
@@ -50,12 +52,24 @@ app.post("/items", function(req, res){
   })
 })
 
+//SHOW ROUTE
 app.get("/items/show", function(req, res){
   Videogame.find({}, function(err, games){
     if(err){
       console.log("ERROR!");
     } else {
       res.render("show", {games: games});
+    }
+  })
+})
+
+//DESTROY ROUTE
+app.delete("/items/show/:id", function(req, res){
+  Videogame.findByIdAndRemove(req.params.id, function(err){
+    if (err){
+      res.redirect("/items/show");
+    } else {
+      res.redirect("/items/show");
     }
   })
 })

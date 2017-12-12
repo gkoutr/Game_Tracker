@@ -7,6 +7,7 @@
     <tr><th>Title</th>
     <th>Console</th>
     <th>Used?</th>
+    <th>Actions</th>
   </tr></thead>
   <tbody>
       <% games.forEach(function(game){ %>
@@ -14,6 +15,15 @@
              <td><%= game.title %></td>
              <td><%= game.console %> </td>
              <td><%= game.used %></td>
+             <td>
+                 <i class="edit icon"></i>
+                 <!--<p><%= game._id %></p>-->
+                 <form id="delete" action="/items/show/<%= game._id %>?_method=DELETE" method="POST">
+                     <button type="submit" style="background: none; border: 0;">
+                         <i class="red remove link icon" aria-hidden="true"></i>
+                     </button>
+                 </form>
+             </td>
         </tr>
       <% }) %>
   </tbody>

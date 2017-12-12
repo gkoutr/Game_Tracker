@@ -63,6 +63,31 @@ app.get("/items/show", function(req, res){
   })
 })
 
+//EDIT ROUTE
+app.get("/items/:id/edit", function(req, res){
+  Videogame.findById(req.params.id, function(err, foundGame){
+    if(err){
+      res.redirect("/items/show");
+    } else {
+      res.render("edit", {game: foundGame});
+    }
+  });
+})
+
+//UPDATE ROUTE
+app.put("/items/:id", function(req,res){
+  req.body.game.body = req.sanitize(req.body.game.body);
+  Videogame.findByIdAndUpdate(req.params.id, req.body.game, function(err, updatedGame){
+    if(err){
+     res.redirect("/items/show");
+    } else {
+      res.redirect("/items/show");
+    }
+  });
+})
+
+
+
 //DESTROY ROUTE
 app.delete("/items/show/:id", function(req, res){
   Videogame.findByIdAndRemove(req.params.id, function(err){

@@ -16,10 +16,11 @@
              <td><%= game.console %> </td>
              <td><%= game.used %></td>
              <td>
-                 <i class="edit icon"></i>
-                 <!--<p><%= game._id %></p>-->
+                 <a  href="/items/<%= game._id %>/edit">
+                     <i class="edit link icon"></i>
+                 </a>
                  <form id="delete" action="/items/show/<%= game._id %>?_method=DELETE" method="POST">
-                     <button type="submit" style="background: none; border: 0;">
+                     <button class="iconbutton" type="submit">
                          <i class="red remove link icon" aria-hidden="true"></i>
                      </button>
                  </form>
@@ -29,7 +30,6 @@
   </tbody>
 </table>
 </div>
-
 
 
 <% include ./partials/footer %>

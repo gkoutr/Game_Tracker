@@ -1,0 +1,25 @@
+<% include ./partials/header %>
+
+<div class = "ui main text container segment">
+    <div class="ui huge header">My Games</div>
+    <table class="ui celled table">
+  <thead>
+    <tr><th>Title</th>
+    <th>Console</th>
+    <th>Used?</th>
+  </tr></thead>
+  <tbody>
+      <% games.forEach(function(game){ %>
+        <tr>  
+             <td><%= game.title %></td>
+             <td><%= game.console %> </td>
+             <td><%= game.used %></td>
+        </tr>
+      <% }) %>
+  </tbody>
+</table>
+</div>
+
+
+
+<% include ./partials/footer %>

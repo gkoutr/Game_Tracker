@@ -49,6 +49,17 @@ app.post("/items", function(req, res){
     }
   })
 })
+
+app.get("/items/show", function(req, res){
+  Videogame.find({}, function(err, games){
+    if(err){
+      console.log("ERROR!");
+    } else {
+      res.render("show", {games: games});
+    }
+  })
+})
+
 app.get('/login', function(req, res){
   res.render('login');
 })

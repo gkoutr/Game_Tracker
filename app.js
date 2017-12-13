@@ -47,7 +47,7 @@ app.post("/items", function(req, res){
     if(err){
       res.render("new");
     } else {
-      res.redirect("/items");
+      res.redirect("/items/show");
     }
   })
 })

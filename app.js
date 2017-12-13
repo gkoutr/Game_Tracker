@@ -1,3 +1,6 @@
+const http = require('http');
+const hostname = '127.0.0.1';
+const port = 3000;
 var express = require('express');
 var mongoose = require("mongoose");
 //var nodeadmin = require('nodeadmin');
@@ -32,8 +35,8 @@ app.get('/', function (req, res) {
 })
 
 //INDEX ROUTE
-app.get('/items', function (req, res){
-  res.render("index");
+app.get('/items/goals', function (req, res){
+  res.render("goals");
 });
 
 app.get("/items/new", function(req, res){
@@ -47,18 +50,18 @@ app.post("/items", function(req, res){
     if(err){
       res.render("new");
     } else {
-      res.redirect("/items/show");
+      res.redirect("/items");
     }
   })
 })
 
-//SHOW ROUTE
-app.get("/items/show", function(req, res){
+//SHOW All GAMES ROUTE
+app.get("/items", function(req, res){
   Videogame.find({}, function(err, games){
     if(err){
       console.log("ERROR!");
     } else {
-      res.render("show", {games: games});
+      res.render("index", {games: games});
     }
   })
 })
@@ -67,7 +70,7 @@ app.get("/items/show", function(req, res){
 app.get("/items/:id/edit", function(req, res){
   Videogame.findById(req.params.id, function(err, foundGame){
     if(err){
-      res.redirect("/items/show");
+      res.redirect("/items");
     } else {
       res.render("edit", {game: foundGame});
     }
@@ -79,9 +82,9 @@ app.put("/items/:id", function(req,res){
   req.body.game.body = req.sanitize(req.body.game.body);
   Videogame.findByIdAndUpdate(req.params.id, req.body.game, function(err, updatedGame){
     if(err){
-     res.redirect("/items/show");
+     res.redirect("/items");
     } else {
-      res.redirect("/items/show");
+      res.redirect("/items");
     }
   });
 })
@@ -89,12 +92,12 @@ app.put("/items/:id", function(req,res){
 
 
 //DESTROY ROUTE
-app.delete("/items/show/:id", function(req, res){
+app.delete("/items/:id", function(req, res){
   Videogame.findByIdAndRemove(req.params.id, function(err){
     if (err){
-      res.redirect("/items/show");
+      res.redirect("/items");
     } else {
-      res.redirect("/items/show");
+      res.redirect("/items");
     }
   })
 })
@@ -109,6 +112,6 @@ app.get('/register', function(req, res){
 
 //app.use(nodeadmin(app));
  
-app.listen(process.env.PORT, process.env.IP, function(){
+app.listen(port, hostname, function(){
     console.log("app Has Started!");
 });

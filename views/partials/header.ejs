@@ -17,7 +17,7 @@
   <a class="active item" data-tab="home" href="/">
     Home
   </a>
-  <a class="item">
+  <a class="item" href="/items/show">
     View Items
   </a>
   <a class="item" href="/items/new">
@@ -32,3 +32,16 @@
     </a>
   </div>
 </div>
+
+
+<script>
+  
+
+$(document).ready(function(){
+  debugger;
+  $('#item').click(function(){
+    $('#item').removeClass("active");
+    $(this).addClass("active");
+});
+});
+</script>

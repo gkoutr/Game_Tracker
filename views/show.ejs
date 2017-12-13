@@ -1,0 +1,35 @@
+<% include ./partials/header %>
+
+<div class = "ui main text container segment">
+    <div class="ui huge header">My Games</div>
+    <table class="ui celled table">
+  <thead>
+    <tr><th>Title</th>
+    <th>Console</th>
+    <th>Used?</th>
+    <th>Actions</th>
+  </tr></thead>
+  <tbody>
+      <% games.forEach(function(game){ %>
+        <tr>  
+             <td><%= game.title %></td>
+             <td><%= game.console %> </td>
+             <td><%= game.used %></td>
+             <td>
+                 <a  href="/items/<%= game._id %>/edit">
+                     <i class="edit link icon"></i>
+                 </a>
+                 <form id="delete" action="/items/show/<%= game._id %>?_method=DELETE" method="POST">
+                     <button class="iconbutton" type="submit">
+                         <i class="red remove link icon" aria-hidden="true"></i>
+                     </button>
+                 </form>
+             </td>
+        </tr>
+      <% }) %>
+  </tbody>
+</table>
+</div>
+
+
+<% include ./partials/footer %>

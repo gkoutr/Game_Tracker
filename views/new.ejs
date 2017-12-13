@@ -12,13 +12,26 @@
              <input type = "text" name="game[console]" placeholder="Console">
         </div>
         <div class="field">
-            <div class="ui checkbox">
-              <input type="checkbox" tabindex="0" name="game[used]">
-              <label>Used?</label>
-            </div>
+            <label>Condition</label>
+            <div class="ui selection dropdown">
+                <input type="hidden" name="game[condition]">
+                <i class="dropdown icon"></i>
+                <div class="default text">Condition</div>
+                <div class="menu">
+                  <div class="item" data-value="New">New</div>
+                  <div class="item" data-value="Used">Used</div>
+                </div>
+              </div>
         </div>
         <button type="submit" class="ui big blue basic button">Submit</button>
     </form>
 </div>
 
+
+<script>
+
+        $('.ui.dropdown')
+            .dropdown()
+        ;
+</script>
 <% include ./partials/footer %>

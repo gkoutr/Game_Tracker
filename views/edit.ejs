@@ -12,13 +12,25 @@
              <input type = "text" name="game[console]" value="<%= game.console%>">
         </div>
         <div class="field">
-            <div class="ui checkbox">
-              <input type="checkbox" tabindex="0" name="game[used]" value="<%= game.used %>">
-              <label>Used?</label>
+                <label>Condition</label>
+                <div class="ui selection dropdown">
+                    <input type="hidden" name="gender">
+                    <i class="dropdown icon"></i>
+                    <div class="default text">Condition</div>
+                    <div class="menu">
+                      <div class="item" data-value="1" value = "New" name="game[condition]">New</div>
+                      <div class="item" data-value="0" value = "Used"name="game[condition]">Used</div>
+                    </div>
+                  </div>
             </div>
-        </div>
         <button type="submit" class="ui big blue basic button">Submit</button>
     </form>
 </div>
+<script>
+        
+                $('.ui.dropdown')
+                    .dropdown()
+                ;
+</script>
 
 <% include ./partials/footer %>

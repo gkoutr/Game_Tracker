@@ -2,17 +2,35 @@ const http = require('http');
 const hostname = '127.0.0.1';
 const port = 3000;
 var express = require('express');
+var app = express();
 var mongoose = require("mongoose");
 //var nodeadmin = require('nodeadmin');
 var bodyParser = require("body-parser");
 var expressSanitizer = require("express-sanitizer");
 var methodOverride = require("method-override");
-var app = express();
+var passport = require('passport');
+var LocalStrategy = require('passport-local');
 var User = require("./models/user");
 var Videogame = require("./models/videogame");
 
 mongoose.connect("mongodb://localhost/item_tracker_app");
+
+
 app.set("view engine", "ejs");
+
+app.use(require("express-session")({
+  secret: "Video game session",
+  resave: false,
+  saveUninitialized: false
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate()));
+
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("styles"));
 app.use(expressSanitizer());
@@ -105,9 +123,32 @@ app.get('/login', function(req, res){
   res.render('login');
 })
 
+
+
+// AUTH ROUTES
 app.get('/register', function(req, res){
   res.render('register');
 })
+
+//handle sign up logic
+app.post("/register", function(req, res){
+  var newUser = new User({
+    firstname: req.body.firstname,
+    lastname: req.body.lastname,
+    username: req.body.username
+  });
+  console.log(req.body.password);
+  User.register(newUser, req.body.password, function(err, user){
+      if (err) {
+        console.log(err);
+        return res.render("register");
+      }
+      passport.authenticate("local")(req, res, function(){
+        res.redirect("/items");
+      });
+  });
+})
+
 
 //app.use(nodeadmin(app));
  

@@ -119,12 +119,6 @@ app.delete("/items/:id", function(req, res){
   })
 })
 
-app.get('/login', function(req, res){
-  res.render('login');
-})
-
-
-
 // AUTH ROUTES
 app.get('/register', function(req, res){
   res.render('register');
@@ -149,8 +143,18 @@ app.post("/register", function(req, res){
   });
 })
 
+//show login form
+app.get('/login', function(req, res){
+  res.render('login');
+})
 
-//app.use(nodeadmin(app));
+//handling login logic
+app.post("/login", passport.authenticate("local", 
+  {
+    successRedirect: "/items", 
+    failureRedirect: "/login"
+  }), function(req, res){
+})
  
 app.listen(port, hostname, function(){
     console.log("app Has Started!");

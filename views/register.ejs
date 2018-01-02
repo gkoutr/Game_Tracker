@@ -1,38 +1,38 @@
 <% include partials/header %>
 
-<div class = "ui main text container segment active clearing">
-   <h2 class="ui dividing header">
-   Register</h4>
-   <form class = "ui form" action="/register" method="post">
-      <div class="field">
-         <label>Name</label>
-         <div class="two fields">
-            <div class="field">
-               <input type="text" name="firstname" placeholder="First Name">
-            </div>
-            <div class="field">
-               <input type="text" name="lastname" placeholder="Last Name">
-            </div>
-         </div>
-         <div class = "field">
-            <label>Username</label>
-            <input type = "text" name = "username" placeholder = "Username"></input>
-         </div>
-         <div class = "field">
-            <label>Password</label>
-            <div class="two fields">
-               <div class="field">
-                  <input type="password" name="password" placeholder="Password"></input>
-               </div>
-               <div class="field">
-                  <input type="password" name="confirmpass" placeholder="Confirm Password"></input>
-               </div>
-            </div>
-            <button class="ui blue button">Register</button>
-            <div class="ui error message"></div>
-         </div>
-      </div>
-   </form>
-</div>
+    <div class="ui main text container segment active clearing">
+        <h2 class="ui dividing header">
+            Register</h4>
+            <form class="ui form" action="/register" method="post">
+                <div class="field">
+                    <label>Name</label>
+                    <div class="two fields">
+                        <div class="field">
+                            <input type="text" name="firstname" placeholder="First Name">
+                        </div>
+                        <div class="field">
+                            <input type="text" name="lastname" placeholder="Last Name">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label>Username</label>
+                        <input type="text" name="username" placeholder="Username"></input>
+                    </div>
+                    <div class="field">
+                        <label>Password</label>
+                        <div class="two fields">
+                            <div class="field">
+                                <input type="password" name="password" placeholder="Password"></input>
+                            </div>
+                            <div class="field">
+                                <input type="password" name="confirmpass" placeholder="Confirm Password"></input>
+                            </div>
+                        </div>
+                        <button class="ui blue button">Register</button>
+                        <div class="ui error message"></div>
+                    </div>
+                </div>
+            </form>
+    </div>
 
-<% include partials/footer %>
+    <% include partials/footer %>

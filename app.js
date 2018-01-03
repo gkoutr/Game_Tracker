@@ -31,6 +31,11 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
+//pass currentUser into every route
+app.use(function(req, res, next){
+    res.locals.currentUser = req.user;
+    next();
+});
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("styles"));
 app.use(expressSanitizer());
@@ -155,6 +160,19 @@ app.post("/login", passport.authenticate("local",
     failureRedirect: "/login"
   }), function(req, res){
 })
+
+//logout route
+app.get("/logout", function(req, res){
+  req.logout();
+  res.redirect('/items');
+});
+
+function isLoggedIn(req, res, next){
+    if(req.isAuthenticated()){
+      return next();
+    }
+    res.redirect("/login");
+}
  
 app.listen(port, hostname, function(){
     console.log("app Has Started!");

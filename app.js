@@ -41,18 +41,6 @@ app.use(express.static("styles"));
 app.use(expressSanitizer());
 app.use(methodOverride("_method"));
 
-/*Videogame.create({
-  name: "Super Smash Bros.",
-  console: "Nintendo 64",
-  used: "true"
-}, function(err, game){
-  if(err){
-    console.log(err);
-  } else {
-    console.log(game);
-  }
-});*/
-
 app.get('/', function (req, res) {
   res.redirect("/items");
 })
@@ -62,29 +50,52 @@ app.get('/items/goals', function (req, res){
   res.render("goals");
 });
 
-app.get("/items/new", function(req, res){
-  res.render("new");
+app.get("/items/new", isLoggedIn, function(req, res){
+  Videogame.findById(req.params.id, function(err, game){
+    if(err){
+      console.log(err);
+    } else{
+      res.render("new", {game: game});
+    }
+  })
 });
 
 //Create route
-app.post("/items", function(req, res){
+app.post("/items", isLoggedIn, function(req, res){
   req.body.game.body = req.sanitize(req.body.game.body);
-  Videogame.create(req.body.game, function(err, newGame){
+  var title = req.body.game.title;
+  var system = req.body.game.console;
+  var condition = req.body.game.condition;
+  var owner = {
+      id: req.user._id,
+      username: req.user.username
+  }
+  var newGame = {title: title, console: system, condition: condition, owner: owner}
+  Videogame.create(newGame, function(err, newlyCreated){
     if(err){
-      res.render("new");
-    } else {
+      console.log(err);
+    }
+    else {
       res.redirect("/items");
     }
-  })
-})
+  });
+  
+});
 
 //SHOW All GAMES ROUTE
-app.get("/items", function(req, res){
+app.get("/items", isLoggedIn, function(req, res){
+  var userGames = [];
   Videogame.find({}, function(err, games){
     if(err){
       console.log("ERROR!");
     } else {
-      res.render("index", {games: games});
+      for(var x = 0; x < games.length; x++){
+        if (games[x].owner.id.equals(req.user._id)){
+          userGames.push(games[x]);
+        }
+      }
+      res.render("index", {userGames: userGames});
+      
     }
   })
 })

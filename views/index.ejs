@@ -19,34 +19,30 @@
                  <a  href="/items/<%= game._id %>/edit">
                      <i class="edit link icon"></i>
                  </a>
-                 <form id="delete" action="/items/<%= game._id %>?_method=DELETE" method="POST">
-                     <button class="iconbutton" type="submit">
-                         <i class="red remove link icon" aria-hidden="true"></i>
-                     </button>
-                 </form>
+                 <a>
+                  <i class="red remove link icon" aria-hidden="true"></i>
+                 </a>
              </td>
         </tr>
+        <div class="ui tiny modal">
+          <div class="header">Delete Game</div>
+          <div class="content">
+            <p id="modal-text">Are you sure you want to delete <strong><%= game.title %></strong>?</p>
+          </div>
+          <div class="actions">
+              <form id="delete" action="/items/<%= game._id %>?_method=DELETE" method="POST">
+                    <button type="submit" class="ui negative button">Yes</button>
+              </form> 
+            <div class="ui positive button" >No</div>
+          </div>
+        </div>
       <% }) %>
   </tbody>
 </table>
 </div>
-<!-- <div class="ui tiny modal">
-    <div class="header">Delete Game</div>
-    <div class="content">
-      <p>Are you sure you want to delete this game?</p>
-    </div>
-    <div class="actions">
-      <div class="ui negative button">No</div>
-      <div class="ui positive  button">Yes</div>
-    </div>
-  </div>
-<script>
-//     $('.tiny.modal').modal({
-//         onVisible: function() {
 
-//         }
-//         'show')}
-// ;
+<script>
+    $('.tiny.modal').modal('attach events', '.red.remove.link','show');
 </script> -->
 
 <% include ./partials/footer %>

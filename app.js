@@ -14,8 +14,6 @@ var User = require("./models/user");
 var Videogame = require("./models/videogame");
 
 mongoose.connect("mongodb://localhost/item_tracker_app");
-
-
 app.set("view engine", "ejs");
 
 app.use(require("express-session")({
@@ -147,7 +145,6 @@ app.post("/register", function(req, res){
     lastname: req.body.lastname,
     username: req.body.username
   });
-  console.log(req.body.password);
   User.register(newUser, req.body.password, function(err, user){
       if (err) {
         console.log(err);

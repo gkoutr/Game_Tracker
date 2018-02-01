@@ -2,33 +2,42 @@ const http = require('http');
 const hostname = '127.0.0.1';
 const port = 3000;
 var express = require('express');
+var app = express();
 var mongoose = require("mongoose");
 //var nodeadmin = require('nodeadmin');
 var bodyParser = require("body-parser");
 var expressSanitizer = require("express-sanitizer");
 var methodOverride = require("method-override");
-var app = express();
+var passport = require('passport');
+var LocalStrategy = require('passport-local');
 var User = require("./models/user");
 var Videogame = require("./models/videogame");
 
 mongoose.connect("mongodb://localhost/item_tracker_app");
 app.set("view engine", "ejs");
+
+app.use(require("express-session")({
+  secret: "Video game session",
+  resave: false,
+  saveUninitialized: false
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate()));
+
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
+//pass currentUser into every route
+app.use(function(req, res, next){
+    res.locals.currentUser = req.user;
+    next();
+});
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("styles"));
 app.use(expressSanitizer());
 app.use(methodOverride("_method"));
-
-/*Videogame.create({
-  name: "Super Smash Bros.",
-  console: "Nintendo 64",
-  used: "true"
-}, function(err, game){
-  if(err){
-    console.log(err);
-  } else {
-    console.log(game);
-  }
-});*/
 
 app.get('/', function (req, res) {
   res.redirect("/items");
@@ -39,29 +48,52 @@ app.get('/items/goals', function (req, res){
   res.render("goals");
 });
 
-app.get("/items/new", function(req, res){
-  res.render("new");
+app.get("/items/new", isLoggedIn, function(req, res){
+  Videogame.findById(req.params.id, function(err, game){
+    if(err){
+      console.log(err);
+    } else{
+      res.render("new", {game: game});
+    }
+  })
 });
 
 //Create route
-app.post("/items", function(req, res){
+app.post("/items", isLoggedIn, function(req, res){
   req.body.game.body = req.sanitize(req.body.game.body);
-  Videogame.create(req.body.game, function(err, newGame){
+  var title = req.body.game.title;
+  var system = req.body.game.console;
+  var condition = req.body.game.condition;
+  var owner = {
+      id: req.user._id,
+      username: req.user.username
+  }
+  var newGame = {title: title, console: system, condition: condition, owner: owner}
+  Videogame.create(newGame, function(err, newlyCreated){
     if(err){
-      res.render("new");
-    } else {
+      console.log(err);
+    }
+    else {
       res.redirect("/items");
     }
-  })
-})
+  });
+  
+});
 
 //SHOW All GAMES ROUTE
-app.get("/items", function(req, res){
+app.get("/items", isLoggedIn, function(req, res){
+  var userGames = [];
   Videogame.find({}, function(err, games){
     if(err){
       console.log("ERROR!");
     } else {
-      res.render("index", {games: games});
+      for(var x = 0; x < games.length; x++){
+        if (games[x].owner.id.equals(req.user._id)){
+          userGames.push(games[x]);
+        }
+      }
+      res.render("index", {userGames: userGames});
+      
     }
   })
 })
@@ -101,15 +133,54 @@ app.delete("/items/:id", function(req, res){
   })
 })
 
-app.get('/login', function(req, res){
-  res.render('login');
-})
-
+// AUTH ROUTES
 app.get('/register', function(req, res){
   res.render('register');
 })
 
-//app.use(nodeadmin(app));
+//handle sign up logic
+app.post("/register", function(req, res){
+  var newUser = new User({
+    firstname: req.body.firstname,
+    lastname: req.body.lastname,
+    username: req.body.username
+  });
+  User.register(newUser, req.body.password, function(err, user){
+      if (err) {
+        console.log(err);
+        return res.render("register");
+      }
+      passport.authenticate("local")(req, res, function(){
+        res.redirect("/items");
+      });
+  });
+})
+
+//show login form
+app.get('/login', function(req, res){
+  res.render('login');
+})
+
+//handling login logic
+app.post("/login", passport.authenticate("local", 
+  {
+    successRedirect: "/items", 
+    failureRedirect: "/login"
+  }), function(req, res){
+})
+
+//logout route
+app.get("/logout", function(req, res){
+  req.logout();
+  res.redirect('/items');
+});
+
+function isLoggedIn(req, res, next){
+    if(req.isAuthenticated()){
+      return next();
+    }
+    res.redirect("/login");
+}
  
 app.listen(port, hostname, function(){
     console.log("app Has Started!");

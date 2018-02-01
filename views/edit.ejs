@@ -24,12 +24,12 @@
                   </div>
             </div>
         <button type="submit" class="ui big blue basic button">Submit</button>
+        <button class="ui big negative basic button" href="/">Back</button>
     </form>
 </div>
 
     <% var item = game.condition %>
     <script> 
-    debugger;
     var condition = "<%= item %>";
     $(".ui.dropdown").dropdown('set selected', condition) 
     </script>

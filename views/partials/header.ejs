@@ -24,12 +24,20 @@
     Add Items
   </a>
   <div class="right menu">
-    <a class="ui item"  href="/login" data-tab="login">
-      Login
-    </a>
-    <a class="ui item" href="/register">
-        Register
-    </a>
+    <% if(!currentUser){ %>
+      <a class="ui item"  href="/login" data-tab="login">
+        Login
+      </a>
+      <a class="ui item" href="/register">
+          Register
+      </a>
+    <%  } else { %>
+      <div class="item">Welcome, <%= currentUser.firstname %> <%= currentUser.lastname %></div>
+      <a class="ui item" href="/logout">
+        Logout
+      </a>
+    <% }    %>
+    
   </div>
 </div>
 

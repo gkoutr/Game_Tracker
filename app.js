@@ -1,3 +1,4 @@
+global.__basedir = __dirname;
 const http = require('http');
 const hostname = '127.0.0.1';
 const port = 3000;
@@ -10,9 +11,10 @@ var expressSanitizer = require("express-sanitizer");
 var methodOverride = require("method-override");
 var passport = require('passport');
 var LocalStrategy = require('passport-local');
+var igdb = require('igdb-api-node').default;
+var client = igdb('0d0a1c9e8d9fa2c618b5612f1f5a27d7');
 var User = require("./models/user");
 var Videogame = require("./models/videogame");
-
 mongoose.connect("mongodb://localhost/item_tracker_app");
 app.set("view engine", "ejs");
 
@@ -24,6 +26,7 @@ app.use(require("express-session")({
 
 app.use(passport.initialize());
 app.use(passport.session());
+
 passport.use(new LocalStrategy(User.authenticate()));
 
 passport.serializeUser(User.serializeUser());
@@ -38,6 +41,8 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("styles"));
 app.use(expressSanitizer());
 app.use(methodOverride("_method"));
+app.use('/', express.static(__basedir));
+app.use("/awesomplete", express.static(__basedir + '/node_modules/awesomplete'));
 
 app.get('/', function (req, res) {
   res.redirect("/items");
@@ -46,7 +51,30 @@ app.get('/', function (req, res) {
 //INDEX ROUTE
 app.get('/items/goals', function (req, res){
   res.render("goals");
+  
 });
+
+app.get('/api/test', function(req, res){
+//   client.games({
+//     fields: 'name', // Return all fields
+//     limit:'*', // Limit to 5 results
+//     offset: 15 // Index offset for results
+// }).then(response => {
+//     res.send(response.body)
+// }).catch(error => {
+//     throw error;
+// });
+
+  client.platforms({
+    fields: 'name',
+    //limit: 20,
+    offset: 15
+  }).then(response => {
+    res.send(response.body)
+  }).catch(error => {
+    throw error;
+  });
+})
 
 app.get("/items/new", isLoggedIn, function(req, res){
   Videogame.findById(req.params.id, function(err, game){

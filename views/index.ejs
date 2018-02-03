@@ -43,6 +43,11 @@
 
 <script>
     $('.tiny.modal').modal('attach events', '.red.remove.link','show');
+
+    new Awesomplete(inputReference, {
+      minChars: 1,
+      maxItems: 15
+    })
 </script> -->
 
 <% include ./partials/footer %>

@@ -15,6 +15,10 @@ var igdb = require('igdb-api-node').default;
 var client = igdb('0d0a1c9e8d9fa2c618b5612f1f5a27d7');
 var User = require("./models/user");
 var Videogame = require("./models/videogame");
+var igdbAPI = require('./api/igdb');
+var request = require('request');
+var igdbURL = 'https://api-2445582011268.apicast.io/games/'
+
 mongoose.connect("mongodb://localhost/item_tracker_app");
 app.set("view engine", "ejs");
 
@@ -54,27 +58,29 @@ app.get('/items/goals', function (req, res){
   
 });
 
-app.get('/api/test', function(req, res){
-//   client.games({
-//     fields: 'name', // Return all fields
-//     limit:'*', // Limit to 5 results
-//     offset: 15 // Index offset for results
-// }).then(response => {
-//     res.send(response.body)
-// }).catch(error => {
-//     throw error;
-// });
+app.get("/api", function(req, res){
+  res.render("search"); 
+});
 
-  client.platforms({
-    fields: 'name',
-    //limit: 20,
-    offset: 15
-  }).then(response => {
-    res.send(response.body)
-  }).catch(error => {
-    throw error;
+app.get('/api/results', function(req, res){
+  console.log(req.query.search)
+  var query = req.query.search;
+  var options = {
+    url:'https://api-2445582011268.apicast.io/games/?search=' + query + '&fields=*' ,
+    headers: {
+      'user-key': '0d0a1c9e8d9fa2c618b5612f1f5a27d7',
+       'Accept': 'application/json'
+    }
+  }
+  
+    request(options, function (error, response, body) {
+      if(!error && response.statusCode == 200){
+        var data = JSON.parse(body)
+        console.log(data);
+        res.render("results", {data: data});
+    }
   });
-})
+});
 
 app.get("/items/new", isLoggedIn, function(req, res){
   Videogame.findById(req.params.id, function(err, game){

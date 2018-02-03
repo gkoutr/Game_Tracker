@@ -9,7 +9,7 @@
         </div>
         <div class="field">
             <label>Console</label>
-             <input type = "text" name="game[console]" placeholder="Console">
+             <input type="text" name="game[console]" class="awesomplete" list="mylist" placeholder="Console">
         </div>
         <div class="field">
             <label>Condition</label>
@@ -26,6 +26,20 @@
         <button type="submit" class="ui big blue basic button">Submit</button>
     </form>
 </div>
+<datalist id="mylist">
+    <option>Ada</option>
+    <option>Adaasdf</option>
+    <option>Adaasdfasdf</option>
+    <option>Adaasdfasdf</option>
+    <option>Adaasdfaasfassdf</option>
+    <option>Adasdfasdfasdfasdfa</option>
+    <option>Java</option>
+    <option>JavaScript</option>
+    <option>Brainfuck</option>
+    <option>LOLCODE</option>
+    <option>Node.js</option>
+    <option>Ruby on Rails</option>
+</datalist>
 <script>
         $('.ui.dropdown')
             .dropdown()

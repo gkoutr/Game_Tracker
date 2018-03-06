@@ -1,5 +1,4 @@
 <% include ./partials/header %>
-
 <div class = "ui main text container segment" id="mainPage">
     <div class="ui huge header">My Games</div>
     <!-- <pre data-bind="text: ko.toJSON($root, null, 2)"></pre>  -->
@@ -16,7 +15,7 @@
              <td data-bind="text: console"></td>
              <td data-bind="text: condition"></td>
              <td>
-                 <a href="/items/edit">
+                 <a data-bind="attr:  {href: $root.getEditUrl($data)}">
                      <i class="edit link icon"></i>
                  </a>
                  <a data-bind="click: $root.deleteGame" >
@@ -46,6 +45,6 @@
     //   minChars: 1,
     //   maxItems: 15
     // })
-</script> -->
+</script> 
 
 <% include ./partials/footer %>

@@ -1,7 +1,5 @@
 var apiUrl = window.location + "/api";
-
 var game = function(data){
-    debugger;
     this.title = ko.observable(data.title);
     this.console = ko.observable(data.console);
     this.condition = ko.observable(data.condition);
@@ -13,16 +11,11 @@ var itemViewModel = function () {
     self.newGame = ko.observable();
     self.firstName = "George";
     
-    self.addGame = function() {
-        debugger;
-        self.games.push(new Game({title: this.newGame() }));
-        self.newGame("");
+    self.getEditUrl = function(data){
+        return "items/" + data._id + "/edit"
     }
-    
+
     self.deleteGame = function(game){
-        var test = game;
-        
-        debugger;
         var url = apiUrl +  "/" + game._id;
         $('.tiny.modal').modal({        
             onDeny : function(){
@@ -65,8 +58,8 @@ var itemViewModel = function () {
                 console.log(err);
             }
         })
-        
     }
+
     self.getItemsByUser();
 }
 var viewModel = {};

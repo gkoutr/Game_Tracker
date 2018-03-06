@@ -1,20 +1,20 @@
 <% include ./partials/header %>
 
-<div class = "ui main text container segment">
+<div class = "ui main text container segment" id="addPage">
     <div class="ui huge header">New Video Game</div>
-    <form class="ui form" action="/items" method="POST">
+    <form class="ui form">
         <div class="field">
             <label>Title</label>
-            <input type = "text" name="game[title]" placeholder="Title">    
+            <input type = "text" data-bind="value: title" name="title" id="title" placeholder="Title">    
         </div>
         <div class="field">
             <label>Console</label>
-             <input type="text" name="game[console]" class="awesomplete" list="mylist" placeholder="Console">
+             <input type="text" data-bind="value: console" name="console" id="console" class="awesomplete" list="mylist" placeholder="Console">
         </div>
         <div class="field">
             <label>Condition</label>
             <div class="ui selection dropdown">
-                <input type="hidden" name="game[condition]">
+                <input type="hidden" data-bind="value: condition"id="condition" name="condition">
                 <i class="dropdown icon"></i>
                 <div class="default text">Condition</div>
                 <div class="menu">
@@ -23,7 +23,9 @@
                 </div>
               </div>
         </div>
-        <button type="submit" class="ui big blue basic button">Submit</button>
+        <div data-bind="click: $root.addGame">
+            <button class="ui big blue basic button" value="Submit">Submit</button>
+        </div>
     </form>
 </div>
 <datalist id="mylist">
@@ -40,6 +42,8 @@
     <option>Node.js</option>
     <option>Ruby on Rails</option>
 </datalist>
+
+<script src="/scripts/item_tracker/item.create.js"></script>
 <script>
         $('.ui.dropdown')
             .dropdown()

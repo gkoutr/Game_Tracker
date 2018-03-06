@@ -41,6 +41,7 @@ app.use(function(req, res, next){
     res.locals.currentUser = req.user;
     next();
 });
+app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("styles"));
 app.use(expressSanitizer());
@@ -85,36 +86,37 @@ app.get('/api/results', function(req, res){
 
 
 app.get("/items/new", isLoggedIn, function(req, res){
-  Videogame.findById(req.params.id, function(err, game){
-    if(err){
-      console.log(err);
-    } else{
-      res.render("new", {game: game});
-    }
-  })
+  // Videogame.findById(req.params.id, function(err, game){
+  //   if(err){
+  //     console.log(err);
+  //   } else{
+  //     res.render("new", {game: game});
+  //   }
+  // })
+  res.render("new");
 });
 
 //Create route
-app.post("/items", isLoggedIn, function(req, res){
-  req.body.game.body = req.sanitize(req.body.game.body);
-  var title = req.body.game.title;
-  var system = req.body.game.console;
-  var condition = req.body.game.condition;
-  var owner = {
-      id: req.user._id,
-      username: req.user.username
-  }
-  var newGame = {title: title, console: system, condition: condition, owner: owner}
-  Videogame.create(newGame, function(err, newlyCreated){
-    if(err){
-      console.log(err);
-    }
-    else {
-      res.redirect("/items");
-    }
-  });
+// app.post("/items", isLoggedIn, function(req, res){
+//   req.body.game.body = req.sanitize(req.body.game.body);
+//   var title = req.body.game.title;
+//   var system = req.body.game.console;
+//   var condition = req.body.game.condition;
+//   var owner = {
+//       id: req.user._id,
+//       username: req.user.username
+//   }
+//   var newGame = {title: title, console: system, condition: condition, owner: owner}
+//   Videogame.create(newGame, function(err, newlyCreated){
+//     if(err){
+//       console.log(err);
+//     }
+//     else {
+//       res.redirect("/items");
+//     }
+//   });
   
-});
+// });
 
 //SHOW All GAMES ROUTE
 app.get("/items", isLoggedIn, function(req, res){
@@ -135,13 +137,14 @@ app.get("/items", isLoggedIn, function(req, res){
 
 //EDIT ROUTE
 app.get("/items/:id/edit", function(req, res){
-  Videogame.findById(req.params.id, function(err, foundGame){
-    if(err){
-      res.redirect("/items");
-    } else {
-      res.render("edit", {game: foundGame});
-    }
-  });
+  // Videogame.findById(req.params.id, function(err, foundGame){
+  //   if(err){
+  //     res.redirect("/items");
+  //   } else {
+  //      res.render("edit", {game: foundGame});
+  //     //res.json(req.params.id);
+  //   }
+    res.render("edit");
 })
 
 //UPDATE ROUTE
@@ -232,6 +235,23 @@ app.get("/items/api/getItems", isLoggedIn, function(req, res){
   })
 });
 
+// app.get("/items/:id/edit", function(req, res){
+//   Videogame.findById(req.params.id, function(err, foundGame){
+//     if(err){
+//       res.redirect("/items");
+//     } else {
+//        res.render("edit", {game: foundGame});
+//       //res.json(req.params.id);
+//     }
+//   });
+// })
+
+app.get("/api/items/:id/edit", isLoggedIn, function(req, res){
+  Videogame.findById(req.params.id, function(err, game){
+    res.json(game);
+  })
+})
+
 //DESTROY ROUTE
 app.delete("/items/api/:id", function(req, res){
   Videogame.findByIdAndRemove(req.params.id, function(err){
@@ -245,7 +265,25 @@ app.delete("/items/api/:id", function(req, res){
   })
 })
 
-
+//Create route
+app.post("/items/api/saveGame", function(req, res){
+  var title = req.body.title;
+  var system = req.body.console;
+  var condition = req.body.condition;
+  var owner = {
+    id: req.user._id,
+    username: req.user.username
+  }
+  var newGame = {title: title, console: system, condition: condition, owner: owner}
+  Videogame.create(newGame, function(err, newlyCreated){
+        if(err){
+          console.log(err);
+        }
+        else {
+          res.json(newlyCreated.id);
+        }
+  });
+})
  
 app.listen(port, hostname, function(){
     console.log("app Has Started!");

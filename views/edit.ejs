@@ -2,19 +2,19 @@
 
 <div class = "ui main text container segment" id="mainPage">
     <div class="ui huge header">Edit</div>
-    <form class="ui form"  data-bind="foreach: game" method="POST">
+    <form class="ui form"  data-bind="foreach: game">
         <div class="field">
             <label>Title</label>
-            <input type = "text" name="title" data-bind="value: title">    
+            <input type = "text" name="title" data-bind="value: title, text: title">    
         </div>
         <div class="field">
             <label>Console</label>
-             <input type = "text" name="console" data-bind="value: console">
+             <input type = "text" name="console" data-bind="value: console, text: console">
         </div>
         <div class="field">
                 <label>Condition</label>
                 <div class="ui selection dropdown">
-                    <input type="hidden"  data-bind="text: condition">
+                    <input type="hidden"  data-bind="value: condition, text: condition">
                     <i class="dropdown icon"></i>
                     <div class="text"></div>
                     <div class="menu">
@@ -23,10 +23,21 @@
                     </div>
                   </div>
             </div>
-        <button type="submit" class="ui big blue basic button">Submit</button>
+        <button type="submit" data-bind="click: $root.updateGame" class="ui big blue basic button">Submit</button>
         <button class="ui big negative basic button" href="/">Back</button>
     </form>
 </div>
 
+<div class="ui tiny modal">
+    <i class="close icon"></i>
+    <div class="header">
+        Error updating Game!
+      </div>
+    <div class="actions">
+      <div class="ui red deny button">
+        Close
+      </div>
+    </div>
+  </div>
 <script type="text/javascript" src="/scripts/item_tracker/item.edit.js"></script>
 <% include ./partials/footer %>

@@ -17,9 +17,10 @@ var User = require("./models/user");
 var Videogame = require("./models/videogame");
 var igdbAPI = require('./API/igdb/test');
 var request = require('request');
-var igdbURL = 'https://api-2445582011268.apicast.io/games/'
 
-mongoose.connect("mongodb://localhost/item_tracker_app");
+var url = process.env.DATABASEURL || "mongodb://localhost/item_tracker_app";
+
+mongoose.connect(url);
 app.set("view engine", "ejs");
 
 app.use(require("express-session")({
@@ -76,7 +77,6 @@ app.get('/api/results', function(req, res){
     request(options, function (error, response, body) {
       if(!error && response.statusCode == 200){
         var data = JSON.parse(body)
-        console.log(data);
         res.render("results", {data: data});
     }
   });
@@ -151,6 +151,11 @@ function isLoggedIn(req, res, next){
 }
 
 //API ROUTES
+var priceProduct = {
+  host: 'https://www.pricecharting.com/api/product?t=b015f45b02f91a78f78d3c978ddd929e225dbb97',
+  path: '/items/api/itemprice',
+  headers: {'User-Agent': 'request'}
+};
 
 //Get All Items by user
 app.get("/items/api/getItems", isLoggedIn, function(req, res){
@@ -158,10 +163,22 @@ app.get("/items/api/getItems", isLoggedIn, function(req, res){
   Videogame.find({}, function(err, games){
     for(var x = 0; x < games.length; x++){
       if (games[x].owner.id.equals(req.user._id)){
-        userGames.push(games[x]);
+        userGames.push(games[x]);    
       }
     }
     res.send(userGames);
+    
+  })
+});
+
+app.get("/items/api/search/itemprice/:fq", function(req,res){
+  var query = req.params.fq;
+  request('https://www.pricecharting.com/api/product?t=c0b53bce27c1bdab90b1605249e600dc43dfd1d5&q=' + query, function (error, response, body){
+    if (!error && response.statusCode == 200) {
+      var info = JSON.parse(body)
+      // do more stuff
+      res.send(info);
+    }
   })
 });
 

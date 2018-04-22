@@ -61,6 +61,22 @@ var itemViewModel = function () {
     }
 
     self.getItemsByUser();
+
+    var prices = function(title, system){
+        var url = apiUrl + "/search/itemprice/" + title  + ' ' + system;
+        $.ajax({
+            type: "GET",
+            url: url,
+            contentType: "application/json; charset=utf-8",
+            dataType: 'json',
+            success: function (rsp){
+                debugger;
+            },
+            error: function (err){
+                console.log(err);
+            }
+        })
+    }
 }
 var viewModel = {};
 $(function() {

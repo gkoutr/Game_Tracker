@@ -23,6 +23,10 @@ var itemEditViewModel = function(data){
             }
         })
     }
+
+    self.backButton = function(){
+        window.location.href = window.location.origin + "/";
+    }
             
     self.updateGame = function(game, callback){
         var url = apiUrl + "/items/" + game.id;

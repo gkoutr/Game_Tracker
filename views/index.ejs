@@ -1,48 +1,49 @@
 <% include ./partials/header %>
-
-<div class = "ui main text container segment">
+<div class = "ui main text container segment" id="mainPage">
     <div class="ui huge header">My Games</div>
     <table class="ui celled table">
-  <thead>
+    <thead>
     <tr><th>Title</th>
     <th>Console</th>
     <th>Condition</th>
     <th>Actions</th>
   </tr></thead>
-  <tbody>
-      <% userGames.forEach(function(game){ %>
+  <tbody data-bind="foreach: games">
         <tr>  
-             <td><%= game.title %></td>
-             <td><%= game.console %> </td>
-             <td><%= game.condition %></td>
+             <td data-bind="text: title"></td>
+             <td data-bind="text: console"></td>
+             <td data-bind="text: condition"></td>
              <td>
-                 <a  href="/items/<%= game._id %>/edit">
+                 <a data-bind="attr:  {href: $root.getEditUrl($data)}">
                      <i class="edit link icon"></i>
                  </a>
-                 <a>
+                 <a data-bind="click: $root.deleteGame" >
                   <i class="red remove link icon" aria-hidden="true"></i>
                  </a>
              </td>
         </tr>
-        <div class="ui tiny modal">
-          <div class="header">Delete Game</div>
-          <div class="content">
-            <p id="modal-text">Are you sure you want to delete <strong><%= game.title %></strong>?</p>
-          </div>
-          <div class="actions">
-              <form id="delete" action="/items/<%= game._id %>?_method=DELETE" method="POST">
-                    <button type="submit" class="ui negative button">Yes</button>
-              </form> 
-            <div class="ui positive button" >No</div>
-          </div>
-        </div>
-      <% }) %>
   </tbody>
 </table>
 </div>
+<div class="ui tiny modal">
+    <div class="header">Delete Game</div>
+    <div class="content">
+      <p id="modal-text">Are you sure you want to delete <strong></strong>?</p>
+    </div>
+    <div class="actions">
+      <div class="ui positive button" >No</div>
+      <button class="ui negative button">Yes</button>
+    </div>
+  </div>
 
+<script src="../scripts/item_tracker/items.js"></script>
 <script>
-    $('.tiny.modal').modal('attach events', '.red.remove.link','show');
-</script> -->
+    // $('.tiny.modal').modal('attach events', '.red.remove.link','show');
+
+    // new Awesomplete(inputReference, {
+    //   minChars: 1,
+    //   maxItems: 15
+    // })
+</script> 
 
 <% include ./partials/footer %>

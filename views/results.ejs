@@ -1,0 +1,20 @@
+<h1>Search For a Game</h1>
+
+<form action = "/api/dy" method = "GET">
+    <input type="text" placeholder="search term" name="search">
+    <input type="submit">
+</form>
+
+<h1>Results Page!!</h1>
+<ul>
+    <% data.forEach(function(games) { %>
+    <li>
+        <strong>
+            <%= games["name"] %>
+        </strong>
+        - <%=games["summary"] %>
+    </li>
+    <% }) %>
+</ul>
+
+<a href="/api">Search Again</a>

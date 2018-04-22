@@ -1,6 +1,6 @@
 global.__basedir = __dirname;
 const http = require('http');
-const hostname = process.env.IP ||'127.0.0.1';
+const hostname = process.env.IP;
 const port = process.env.PORT  || 3000;
 var express = require('express');
 var app = express();

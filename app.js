@@ -234,5 +234,6 @@ app.post("/api/items/:id", function(req,res){
 })
 
 app.listen(port, hostname,  function(){
+  console.log(port + " " + hostname);
     console.log("app Has Started!");
 });

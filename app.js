@@ -1,7 +1,7 @@
 global.__basedir = __dirname;
 const http = require('http');
-const hostname = '127.0.0.1';
-const port = 3000;
+const hostname = process.env.IP ||'127.0.0.1';
+const port = process.env.PORT  || 3000;
 var express = require('express');
 var app = express();
 var mongoose = require("mongoose");
@@ -233,6 +233,6 @@ app.post("/api/items/:id", function(req,res){
   });
 })
 
-app.listen(process.env.PORT || port, process.env.IP || hostname,  function(){
+app.listen(port, hostname,  function(){
     console.log("app Has Started!");
 });

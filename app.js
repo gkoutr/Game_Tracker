@@ -233,6 +233,6 @@ app.post("/api/items/:id", function(req,res){
   });
 })
 
-app.listen(port, hostname, function(){
+app.listen(process.env.PORT || port, process.env.IP || hostname,  function(){
     console.log("app Has Started!");
 });

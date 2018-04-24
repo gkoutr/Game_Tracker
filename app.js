@@ -18,8 +18,8 @@ var Videogame = require("./models/videogame");
 var igdbAPI = require('./API/igdb/test');
 var request = require('request');
 
-//var url = process.env.DATABASEURL || "mongodb://localhost/item_tracker_app";
-var url = "mongodb://george:password123@ds121171.mlab.com:21171/item-price-tracker";
+var url = process.env.DATABASEURL || "mongodb://localhost/item_tracker_app";
+//var url = "mongodb://george:password123@ds121171.mlab.com:21171/item-price-tracker";
 mongoose.connect(url);
 app.set("view engine", "ejs");
 
@@ -152,7 +152,7 @@ function isLoggedIn(req, res, next){
 
 //API ROUTES
 var priceProduct = {
-  host: 'https://www.pricecharting.com/api/product?t=b015f45b02f91a78f78d3c978ddd929e225dbb97',
+  host: 'https://www.pricecharting.com/api/product?t=8ee1e21e4768301330683b9a8f010dc7c0f20e94',
   path: '/items/api/itemprice',
   headers: {'User-Agent': 'request'}
 };
@@ -173,7 +173,7 @@ app.get("/items/api/getItems", isLoggedIn, function(req, res){
 
 app.get("/items/api/search/itemprice/:fq", function(req,res){
   var query = req.params.fq;
-  request('https://www.pricecharting.com/api/product?t=c0b53bce27c1bdab90b1605249e600dc43dfd1d5&q=' + query, function (error, response, body){
+  request('https://www.pricecharting.com/api/product?t=8ee1e21e4768301330683b9a8f010dc7c0f20e94&q=' + query, function (error, response, body){
     if (!error && response.statusCode == 200) {
       var info = JSON.parse(body)
       // do more stuff

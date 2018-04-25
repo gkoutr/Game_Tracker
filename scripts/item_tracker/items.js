@@ -10,20 +10,20 @@ var itemViewModel = function () {
     self.games = ko.observableArray([]);
     self.newGame = ko.observable();
     self.firstName = "George";
-
+    self.totalPrice = ko.observable();
     self.getEditUrl = function(data){
         return "items/" + data._id + "/edit"
     }
 
     self.getPriceFromAPI = function(game, callback){
-        var url = "https://www.pricecharting.com/api/product?t=8ee1e21e4768301330683b9a8f010dc7c0f20e94&q=" + game.title + " " +  game.console;
+        var url = apiUrl + "/search/itemprice/" + game.title + " " + game.console;
         $.ajax({
             type: "GET",
             url: url,
             contentType: "application/x-www-form-urlencoded; charset=UTF-8",
             dataType: 'json',
             success: function (rsp){
-             if (callback) callback(rsp, game);
+             if (callback) callback(rsp, game, false);
             },
             error: function (err){
                 if(callback) callback(err, game, true);
@@ -45,8 +45,6 @@ var itemViewModel = function () {
                         setTimeout(function(){
                             self.getItemsByUser();
                         }, 500);
-
-
                     },
                     error: function(err){
                         games.pop()
@@ -65,21 +63,26 @@ var itemViewModel = function () {
             contentType: "application/json; charset=utf-8",
             dataType: 'json',
             success: function (rsp){
+                var totalPrice = 0;
                 self.games.removeAll();
                 for(var x = 0; x < rsp.length; x++){
                     self.getPriceFromAPI(rsp[x],  function(response, game, error){
-                        var loosePrice = ("$" + response['loose-price'] / 100);
-                        var newPrice = ("$" + response['new-price'] / 100);
+                        var loosePrice = (response['loose-price'] / 100);
+                        var newPrice = (response['new-price'] / 100);
+                        
                         if(error){
                             game.price = "Unavailable";
                         }
                         else if (!error && game.condition == "Used"){
                             game.price = loosePrice;
+                            totalPrice += game.price;
                         }
                         else if(!error && game.condition == "New"){
-                            game.price = newPrice
+                            game.price = newPrice;
+                            totalPrice += game.price;
                         }
-                        
+                        game.price = (!error ? "$" + game.price : game.price);
+                        self.totalPrice(totalPrice.toFixed(2));
                         self.games.push(game);
                     });
                 }

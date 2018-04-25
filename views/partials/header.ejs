@@ -5,10 +5,10 @@
     <title>Item Tracker</title>
     <link rel="stylesheet" href="/awesomplete/awesomplete.base.css" />
     <script src="/awesomplete/awesomplete.js" async></script>
-    <link rel="stylesheet" href="/style.css" /></link>
     <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
     <script type="text/javascript" src="/scripts/knockout-3.4.2.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/semantic.min.js"> </script>
+    <link rel="stylesheet" href="../../styles/style.css" /></link>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/semantic.min.css">
     
 
@@ -18,12 +18,13 @@
         <div class="ui huge message page grid">
             <h1 class="ui huge header">Welcome to the Game Tracker!</h1>
             <p>Track your video game collection and see live updates of sell prices from Amazon, Ebay, etc.</p>
-            <a class="ui blue button">Learn more »</a>
+            <a class="ui blue button" href="/items/goals">Learn more </a>
+            <p>All prices are provided by <a href="https://www.pricecharting.com/">PriceCharting API</a></p>
         </div>
     </div>
   </div>
-<div class="ui secondary menu">
-  <a class="active item" data-tab="home" href="/items">
+<div class="ui centered secondary menu">
+  <a class="item" data-tab="home" href="/items">
     Home
   </a>
   <a class="item" href="/items/goals">
@@ -53,11 +54,8 @@
 
 <script>
   
+  $(document).ready(function(){
+    $('.ui.item').tab();
+});
 
-$(document).ready(function(){
-  $('#item').click(function(){
-    $('#item').removeClass("active");
-    $(this).addClass("active");
-});
-});
 </script>

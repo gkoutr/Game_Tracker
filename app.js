@@ -18,8 +18,8 @@ var Videogame = require("./models/videogame");
 var igdbAPI = require('./API/igdb/test');
 var request = require('request');
 
-var url = process.env.DATABASEURL || "mongodb://localhost/item_tracker_app";
-//var url = "mongodb://george:password123@ds121171.mlab.com:21171/item-price-tracker";
+//var url = process.env.DATABASEURL || "mongodb://localhost/item_tracker_app";
+var url = "mongodb://george:password123@ds121171.mlab.com:21171/item-price-tracker";
 mongoose.connect(url);
 app.set("view engine", "ejs");
 

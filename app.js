@@ -171,6 +171,7 @@ app.get("/items/api/getItems", isLoggedIn, function(req, res){
   })
 });
 
+//pricecharting search single product
 app.get("/items/api/search/itemprice/:fq", function(req,res){
   var query = req.params.fq;
   request('https://www.pricecharting.com/api/product?t=8ee1e21e4768301330683b9a8f010dc7c0f20e94&q=' + query, function (error, response, body){
@@ -181,6 +182,23 @@ app.get("/items/api/search/itemprice/:fq", function(req,res){
     }
   })
 });
+
+//pricecharting search multiple products
+app.get("/items/api/search/products/:fq", function(req, res){
+  var query = req.params.fq;
+  request('https://www.pricecharting.com/api/products?t=8ee1e21e4768301330683b9a8f010dc7c0f20e94&q=' + query, function (error, response, body){
+    if (!error && response.statusCode == 200) {
+      var info = JSON.parse(body)
+      var gameNames = [];
+      for(var x = 0; x < info.products.length; x++){
+        gameNames.push(info.products[x]["product-name"]);
+        debugger;
+      }
+      // do more stuff
+      res.send(gameNames);
+    }
+  })
+})
 
 app.get("/api/items/:id/edit", isLoggedIn, function(req, res){
   Videogame.findById(req.params.id, function(err, game){

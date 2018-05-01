@@ -4,7 +4,7 @@ var itemCreateModel = function(){
 
     self.game = ko.observable();
     self.gameFields = ko.observableArray();
-    self.gameCount = ko.observable(0);
+    self.gameCount = ko.observable(1);
         self.addGame = function(games){
         var url = apiUrl + "/saveGame"
         $.ajax({
@@ -22,15 +22,14 @@ var itemCreateModel = function(){
         })
     }
 
-    self.addNewField = function(){
+    self.addNewField = function(allFields){
         var game = {
             title: ko.observable(""),
             console: ko.observable(""),
-            condition: ko.observable("")
-        };
+            condition: ko.observable(""),
+            count: ko.observable(allFields != undefined ? allFields.gameCount() + 1 : 1)
+        }
         self.gameFields.push(game);
-        
-       
     }
 
     self.getDropdown = function(){

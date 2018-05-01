@@ -221,20 +221,21 @@ app.delete("/items/api/:id", function(req, res){
 
 //Create route
 app.post("/items/api/saveGame", function(req, res){
-  var title = req.body.title;
-  var system = req.body.console;
-  var condition = req.body.condition;
-  var owner = {
-    id: req.user._id,
-    username: req.user.username
-  }
-  var newGame = {title: title, console: system, condition: condition, owner: owner}
-  Videogame.create(newGame, function(err, newlyCreated){
+ var fields = req.body;
+ var newGames = [];
+ var owner = {
+  id: req.user._id,
+  username: req.user.username
+}
+ for(var x = 0; x < fields.length; x++){
+  newGames.push({title: fields[x].title, console: fields[x].console, condition: fields[x].condition, owner: owner});
+ }
+  Videogame.create(newGames, function(err, newlyCreated){
         if(err){
           console.log(err);
         }
         else {
-          res.json(newlyCreated.id);
+          res.json(newlyCreated);
         }
   });
 })

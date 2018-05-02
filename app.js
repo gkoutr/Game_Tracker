@@ -191,11 +191,10 @@ app.get("/items/api/search/products/:fq", function(req, res){
       var info = JSON.parse(body)
       var gameNames = [];
       for(var x = 0; x < info.products.length; x++){
-        gameNames.push(info.products[x]["product-name"]);
-        debugger;
+        gameNames.push({title: info.products[x]["product-name"], console: info.products[x]["console-name"]});
       }
       // do more stuff
-      res.send(gameNames);
+      res.send({items: gameNames});
     }
   })
 })

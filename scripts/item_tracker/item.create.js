@@ -1,11 +1,11 @@
 var apiUrl = window.location.origin + "/items/api";
-var itemCreateModel = function(){
+var itemCreateModel = function () {
     var self = this;
 
     self.game = ko.observable();
     self.gameFields = ko.observableArray();
     self.gameCount = ko.observable(1);
-        self.addGame = function(games){
+    self.addGame = function (games) {
         var url = apiUrl + "/saveGame"
         $.ajax({
             type: "POST",
@@ -13,40 +13,56 @@ var itemCreateModel = function(){
             dataType: 'json',
             data: JSON.stringify(ko.toJS(games.gameFields)),
             contentType: 'application/json',
-            success: function(rsp){
+            success: function (rsp) {
                 window.location.href = window.location.origin + "/";
             },
-            error: function(err){
+            error: function (err) {
                 console.log(err);
             }
         })
     }
 
-    self.addNewField = function(allFields){
+    self.addNewField = function (allFields) {
         var game = {
             title: ko.observable(""),
             console: ko.observable(""),
             condition: ko.observable(""),
             count: ko.observable()
         }
-        if(allFields != undefined){
+        if (allFields != undefined) {
             self.gameCount(allFields.gameCount() + 1)
             game.count(self.gameCount());
         }
-        else{
+        else {
             game.count(1)
         }
         self.gameFields.push(game);
     }
 
-    self.getDropdown = function(){
+    self.getDropdown = function () {
         $('.ui.dropdown').dropdown();
     }
+
+    self.getSearchTitle = function () {
+        $('.ui.search')
+            .search({
+                apiSettings: {
+                    url: 'http://localhost:3000/items/api/search/products/{query}'
+                },
+                fields: {
+                    results: "items",
+                    title: "title",
+                    description: "console"
+                },
+                minCharacters: 3
+            })
+            ;
+    }
     self.addNewField();
-    
+
 }
 var viewModel = {};
-$(function() {
+$(function () {
     viewModel = new itemCreateModel();
-    ko.applyBindings(viewModel,  document.getElementById("addPage"));
+    ko.applyBindings(viewModel, document.getElementById("addPage"));
 })

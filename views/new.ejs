@@ -4,9 +4,10 @@
     <div data-bind="foreach: gameFields" class="ui segment">
         <div class="ui huge header" data-bind="text: 'Game #' + count()"></div>
         <div class="ui form">
-            <div class="field">
+            <div class="ui search field">
                 <label>Title</label>
-                <input type="text" data-bind="value: title" name="title" id="title" placeholder="Title" required>
+                <input type="text" data-bind="value: title, event: $root.getSearchTitle()" class="prompt" name="title" id="title" placeholder="Title">
+                <div class="results"></div>
             </div>
             <div class="field">
                 <label>Console</label>
@@ -37,4 +38,52 @@
     </div>
 </div>
 <script src="/scripts/item_tracker/item.create.js"></script>
+
+<script>
+    $('.ui.search')
+  .search({
+    apiSettings: {
+      url: 'http://localhost:3000/items/api/search/products/{query}'
+    },
+    fields: {
+      results : '[]',
+      title   : 'name',
+      url     : 'html_url'
+    },
+    minCharacters : 3
+  })
+;
+// $('.ui.search')
+//   .search({
+//     source: content
+//   })
+//   var content = [
+//   { title: 'Andorra' },
+//   { title: 'United Arab Emirates' },
+//   { title: 'Afghanistan' },
+//   { title: 'Antigua' },
+//   { title: 'Anguilla' },
+//   { title: 'Albania' },
+//   { title: 'Armenia' },
+//   { title: 'Netherlands Antilles' },
+//   { title: 'Angola' },
+//   { title: 'Argentina' },
+//   { title: 'American Samoa' },
+//   { title: 'Austria' },
+//   { title: 'Australia' },
+//   { title: 'Aruba' },
+//   { title: 'Aland Islands' },
+//   { title: 'Azerbaijan' },
+//   { title: 'Bosnia' },
+//   { title: 'Barbados' },
+//   { title: 'Bangladesh' },
+//   { title: 'Belgium' },
+//   { title: 'Burkina Faso' },
+//   { title: 'Bulgaria' },
+//   { title: 'Bahrain' },
+//   { title: 'Burundi' }
+//   // etc
+// ];
+
+</script>
 <% include ./partials/footer %>

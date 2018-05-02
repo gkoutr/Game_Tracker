@@ -27,13 +27,14 @@
             </div>
         </div>
     </div>
-    <div data-bind="click: $root.addNewField" class="ui big blue button">
-        Add New Game
-    </div>
-    <div data-bind="click: $root.addGame" class="ui big blue basic button">
-        Save
+    <div class="ui segment">
+        <div data-bind="click: $root.addNewField" class="ui big button">
+            Add New Game
+        </div>
+        <div data-bind="click: $root.addGame" class="ui big blue button right floated">
+            Save
+        </div>
     </div>
 </div>
-
 <script src="/scripts/item_tracker/item.create.js"></script>
 <% include ./partials/footer %>

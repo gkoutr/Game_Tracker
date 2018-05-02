@@ -27,7 +27,14 @@ var itemCreateModel = function(){
             title: ko.observable(""),
             console: ko.observable(""),
             condition: ko.observable(""),
-            count: ko.observable(allFields != undefined ? allFields.gameCount() + 1 : 1)
+            count: ko.observable()
+        }
+        if(allFields != undefined){
+            self.gameCount(allFields.gameCount() + 1)
+            game.count(self.gameCount());
+        }
+        else{
+            game.count(1)
         }
         self.gameFields.push(game);
     }

@@ -1,3 +1,4 @@
+
 var apiUrl = window.location.origin + "/items/api";
 var itemCreateModel = function () {
     var self = this;
@@ -44,19 +45,25 @@ var itemCreateModel = function () {
     }
 
     self.getSearchTitle = function () {
+        var url = apiUrl + "/search/products/";
         $('.ui.search')
             .search({
-                apiSettings: {
-                    url: 'http://localhost:3000/items/api/search/products/{query}'
-                },
                 fields: {
                     results: "items",
                     title: "title",
                     description: "console"
                 },
-                minCharacters: 3
-            })
-            ;
+                minCharacters: 2,
+                apiSettings: {
+                    url: url + '{query}'
+                },
+                onSelect: function(result, response){
+                    var text = this;
+                    data = ko.dataFor(text);
+                    data.title(result.title);
+                    data.console(result.console);
+                }  
+            });            ;
     }
     self.addNewField();
 

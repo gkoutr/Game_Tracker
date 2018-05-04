@@ -1,52 +1,42 @@
 <% include ./partials/header %>
 
-<div class = "ui main text container segment" id="addPage">
-    <div class="ui huge header">New Video Game</div>
-    <form class="ui form">
-        <div class="field">
-            <label>Title</label>
-            <input type = "text" data-bind="value: title" name="title" id="title" placeholder="Title" required>    
-        </div>
-        <div class="field">
-            <label>Console</label>
-             <input type="text" data-bind="value: console" name="console" id="console" class="awesomplete" list="mylist" placeholder="Console" required>
-        </div>
-        <div class="field">
-            <label>Condition</label>
-            <div class="ui selection dropdown">
-                <input type="hidden" data-bind="value: condition"id="condition" name="condition">
-                <i class="dropdown icon"></i>
-                <div class="default text">Condition</div>
-                <div class="menu">
-                  <div class="item" data-value="New">New</div>
-                  <div class="item" data-value="Used">Used</div>
+<div class="ui main text container segments" id="addPage">
+    <div data-bind="foreach: gameFields" class="ui segment">
+        <div class="ui huge header" data-bind="text: 'Game #' + count()"></div>
+        <div class="ui form">
+            <div class="ui search field">
+                <label>Title</label>
+                <input type="text" data-bind="value: title, event: $root.getSearchTitle()" class="prompt" name="title" id="title" placeholder="Title">
+                <div class="results"></div>
+            </div>
+            <div class="field">
+                <label>Console</label>
+                <input type="text" data-bind="value: console" name="console" id="console" class="awesomplete" list="mylist" placeholder="Console"
+                    required>
+            </div>
+            <div class="field">
+                <label>Condition</label>
+                <div class="ui selection dropdown" data-bind="event: $root.getDropdown()">
+                    <input type="hidden" data-bind="value: condition" id="condition" name="condition">
+                    <i class="dropdown icon"></i>
+                    <div class="default text">Condition</div>
+                    <div class="menu">
+                        <div class="item" data-value="New">New</div>
+                        <div class="item" data-value="Used">Used</div>
+                    </div>
                 </div>
-              </div>
+            </div>
         </div>
-        <div data-bind="click: $root.addGame">
-            <button class="ui big blue basic button" value="Submit">Submit</button>
+    </div>
+    <div class="ui segment">
+        <div data-bind="click: $root.addNewField" class="ui big button">
+            Add New Game
         </div>
-    </form>
+        <div data-bind="click: $root.addGame" class="ui big blue button right floated">
+            Save
+        </div>
+    </div>
 </div>
-<datalist id="mylist">
-    <option>Ada</option>
-    <option>Adaasdf</option>
-    <option>Adaasdfasdf</option>
-    <option>Adaasdfasdf</option>
-    <option>Adaasdfaasfassdf</option>
-    <option>Adasdfasdfasdfasdfa</option>
-    <option>Java</option>
-    <option>JavaScript</option>
-    <option>Brainfuck</option>
-    <option>LOLCODE</option>
-    <option>Node.js</option>
-    <option>Ruby on Rails</option>
-</datalist>
-
 <script src="/scripts/item_tracker/item.create.js"></script>
-<script>
-        $('.ui.dropdown')
-            .dropdown()
-        ;
-</script>
+
 <% include ./partials/footer %>

@@ -2,62 +2,59 @@
 <html>
 
 <head>
-    <title>Item Tracker</title>
-    <link rel="stylesheet" href="/awesomplete/awesomplete.base.css" />
-    <script src="/awesomplete/awesomplete.js" async></script>
-    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
-    <script type="text/javascript" src="/scripts/knockout-3.4.2.js"></script>
-    <script type="text/javascript" src="/scripts/scripts.js"></script>
-    <script type="text/javascript" src="/scripts/typeahead.bundle.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/semantic.min.js"> </script>
-    <link rel="stylesheet" href="../../styles/style.css" /></link>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/semantic.min.css">
-    
+  <title>Item Tracker</title>
+  <link rel="stylesheet" href="/awesomplete/awesomplete.base.css" />
+  <script src="/awesomplete/awesomplete.js" async></script>
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+    crossorigin="anonymous"></script>
+  <script type="text/javascript" src="/scripts/knockout-3.4.2.js"></script>
+  <script type="text/javascript" src="/scripts/scripts.js"></script>
+  <script type="text/javascript" src="/scripts/typeahead.bundle.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/semantic.min.js"> </script>
+  <link rel="stylesheet" href="../../styles/style.css" /></link>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/semantic.min.css">
 
 </head>
-<div class="row">
-    <div class="column padding-reset">
-        <div class="ui huge message page grid">
-            <h1 class="ui huge header">Welcome to the Game Tracker!</h1>
-            <p>Track your video game collection and see live updates of sell prices from Amazon, Ebay, etc.</p>
-            <a class="ui blue button" href="/items/goals">Learn more </a>
-            <p>All prices are provided by <a href="https://www.pricecharting.com/">PriceCharting API</a></p>
-        </div>
+
+<body>
+  <div class="ui sizer vertical segment">
+    <div class="row">
+      <h1 class="ui center aligned blue huge header" style="font-size: 3em">Welcome
+        <% if(currentUser){ %>
+          <%= currentUser.firstname %>
+            <%= currentUser.lastname %>
+              <% } %> to the Game Tracker!
+                <div class="sub header" style="padding: 10px;">Track your video game collection and see live updates of sell prices from Amazon, Ebay, etc</div>
+                <!-- <p style="text-align: center">.</p> -->
+      </h1>
     </div>
   </div>
-<div class="ui centered secondary menu">
-  <a class="item" data-tab="home" href="/items">
-    Home
-  </a>
-  <a class="item" href="/items/goals">
-    Goals
-  </a>
-  <a class="item" href="/items/new">
-    Add Games
-  </a>
-  <div class="right menu">
-    <% if(!currentUser){ %>
-      <a class="ui item"  href="/login" data-tab="login">
-        Login
+  <div class="ui center aligned container">
+    <div class="ui compact menu">
+      <a class="item" data-tab="home" href="/items">
+        Home
       </a>
-      <a class="ui item" href="/register">
-          Register
+      <a class="item" href="/items/goals">
+        Goals
       </a>
-    <%  } else { %>
-      <div class="item">Welcome, <%= currentUser.firstname %> <%= currentUser.lastname %></div>
-      <a class="ui item" href="/logout">
-        Logout
+      <a class="item" href="/items/new">
+        Add Games
       </a>
-    <% }    %>
-    
+      <% if(currentUser){ %>
+        <a class="item" href="/logout">
+          Logout
+        </a>
+        <% } %>
+
+    </div>
   </div>
-</div>
 
+  <div class="content">
 
-<script>
-  
-  $(document).ready(function(){
-    $('.ui.item').tab();
-});
+    <script>
 
-</script>
+      $(document).ready(function () {
+        $('.ui.item').tab();
+      });
+
+    </script>

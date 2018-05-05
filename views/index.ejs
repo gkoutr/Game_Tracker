@@ -1,58 +1,57 @@
 <% include ./partials/header %>
-<div class = "ui main text container segment" id="mainPage">
+
+  <div class="ui main text container segment" id="mainPage">
     <div class="ui huge header">My Games</div>
     <table class="ui celled table">
-    <thead>
-    <tr><th>Title</th>
-    <th>Console</th>
-    <th>Condition</th>
-    <th>Sell Price</th>
-    <th>Actions</th>
-  </tr></thead>
-  <tbody data-bind="foreach: games">
-        <tr>  
-             <td data-bind="text: title"></td>
-             <td data-bind="text: console"></td>
-             <td data-bind="text: condition"></td>
-             <td data-bind="text: price"></td>
-             <td>
-                 <a data-bind="attr:  {href: $root.getEditUrl($data)}">
-                     <i class="edit link icon"></i>
-                 </a>
-                 <a data-bind="click: $root.deleteGame" >
-                  <i class="red remove link icon" aria-hidden="true"></i>
-                 </a>
-             </td>
+      <thead>
+        <tr><th>Title</th>
+          <th>Console</th>
+          <th>Condition</th>
+          <th>Sell Price</th>
+          <th>Actions</th>
+        </tr></thead>
+      <tbody data-bind="foreach: games">
+        <div data-bind=" visible: $root.loadingStatus()" class="ui active inverted dimmer">
+          <div data-bind=" visible: $root.loadingStatus()" class="ui text loader">Loading games</div>
+        </div>
+        <tr>
+          <td data-bind="text: title"></td>
+          <td data-bind="text: console"></td>
+          <td data-bind="text: condition"></td>
+          <td data-bind="text: price"></td>
+          <td>
+            <a data-bind="attr:  {href: $root.getEditUrl($data)}">
+              <i class="edit link icon"></i>
+            </a>
+            <a data-bind="click: $root.deleteGame" >
+              <i class="red remove link icon" aria-hidden="true"></i>
+            </a>
+          </td>
         </tr>
-  </tbody>
-  <tfoot>
-    <tr><th></th>
-    <th></th>
-    <th id="check-bold">Total:</th>
-    <th data-bind="text: '$' +  totalPrice()" id="check-bold" ></th>
-    <th></th>
-  </tr></tfoot>
-</table>
-</div>
-<div class="ui tiny modal">
+      </tbody>
+      <tfoot>
+        <tr>
+          <th></th>
+          <th></th>
+          <th id="check-bold">Total:</th>
+          <th data-bind="text: '$' +  totalPrice()" id="check-bold"></th>
+          <th></th>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+  <div class="ui tiny modal">
     <div class="header">Delete Game</div>
     <div class="content">
-      <p id="modal-text">Are you sure you want to delete <strong></strong>?</p>
+      <p id="modal-text">Are you sure you want to delete
+        <strong></strong>?</p>
     </div>
     <div class="actions">
-      <div class="ui positive button" >No</div>
+      <div class="ui positive button">No</div>
       <button class="ui negative button">Yes</button>
     </div>
   </div>
 
-<script src="../scripts/item_tracker/items.js"></script>
-<script>
-    // $('.tiny.modal').modal('attach events', '.red.remove.link','show');
+  <script src="../scripts/item_tracker/items.js"></script>
 
-    // new Awesomplete(inputReference, {
-    //   minChars: 1,
-    //   maxItems: 15
-    // })
-</script> 
-
-<% include ./partials/footer %>
+  <% include ./partials/footer %>

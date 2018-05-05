@@ -11,11 +11,12 @@ var itemViewModel = function () {
     self.newGame = ko.observable();
     self.firstName = "George";
     self.totalPrice = ko.observable();
+    self.loadingStatus = ko.observable(true);
     self.getEditUrl = function(data){
         return "items/" + data._id + "/edit"
     }
 
-    self.getPriceFromAPI = function(game, callback){
+    self.getPriceFromAPI = function(game, responseLength, callback){
         var url = apiUrl + "/search/itemprice/" + game.title + " " + game.console;
         $.ajax({
             type: "GET",
@@ -23,7 +24,7 @@ var itemViewModel = function () {
             contentType: "application/x-www-form-urlencoded; charset=UTF-8",
             dataType: 'json',
             success: function (rsp){
-             if (callback) callback(rsp, game, false);
+             if (callback) callback(rsp, game, false, responseLength);
             },
             error: function (err){
                 if(callback) callback(err, game, true);
@@ -66,7 +67,8 @@ var itemViewModel = function () {
                 var totalPrice = 0;
                 self.games.removeAll();
                 for(var x = 0; x < rsp.length; x++){
-                    self.getPriceFromAPI(rsp[x],  function(response, game, error){
+                    self.getPriceFromAPI(rsp[x], rsp.length,  function(response, game, error, responseLength){
+                        self.loadingStatus(true);
                         var loosePrice = (response['loose-price'] / 100);
                         var newPrice = (response['new-price'] / 100);
                         
@@ -84,6 +86,9 @@ var itemViewModel = function () {
                         game.price = (!error ? "$" + game.price : game.price);
                         self.totalPrice(totalPrice.toFixed(2));
                         self.games.push(game);
+                        if(self.games().length == responseLength){
+                            self.loadingStatus(false);
+                        }
                     });
                 }
                 if (callback) callback(rsp);

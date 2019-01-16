@@ -5,17 +5,14 @@ const port = process.env.PORT  || 3000;
 var express = require('express');
 var app = express();
 var mongoose = require("mongoose");
-//var nodeadmin = require('nodeadmin');
 var bodyParser = require("body-parser");
 var expressSanitizer = require("express-sanitizer");
 var methodOverride = require("method-override");
 var passport = require('passport');
 var LocalStrategy = require('passport-local');
 var igdb = require('igdb-api-node').default;
-var client = igdb('0d0a1c9e8d9fa2c618b5612f1f5a27d7');
 var User = require("./models/user");
 var Videogame = require("./models/videogame");
-var igdbAPI = require('./API/igdb/test');
 var request = require('request');
 
 //var url = process.env.DATABASEURL || "mongodb://localhost/item_tracker_app";
@@ -70,7 +67,7 @@ app.get('/api/results', function(req, res){
   var options = {
     url:'https://api-2445582011268.apicast.io/games/?search=' + query + '&fields=*' ,
     headers: {
-      'user-key': '0d0a1c9e8d9fa2c618b5612f1f5a27d7',
+      'user-key': '8f2cd364cce4038e40f767cbf5f5b77ad7fcd29e',
        'Accept': 'application/json'
     }
   }
@@ -98,8 +95,6 @@ app.get("/items/new", isLoggedIn, function(req, res){
 app.get("/items/:id/edit", function(req, res){
     res.render("edit");
 })
-
-
 
 // AUTH ROUTES
 app.get('/register', function(req, res){
@@ -152,7 +147,7 @@ function isLoggedIn(req, res, next){
 
 //API ROUTES
 var priceProduct = {
-  host: 'https://www.pricecharting.com/api/product?t=8ee1e21e4768301330683b9a8f010dc7c0f20e94',
+  host: 'https://www.pricecharting.com/api/product?t=8f2cd364cce4038e40f767cbf5f5b77ad7fcd29e',
   path: '/items/api/itemprice',
   headers: {'User-Agent': 'request'}
 };
@@ -174,7 +169,7 @@ app.get("/items/api/getItems", isLoggedIn, function(req, res){
 //pricecharting search single product
 app.get("/items/api/search/itemprice/:fq", function(req,res){
   var query = req.params.fq;
-  request('https://www.pricecharting.com/api/product?t=8ee1e21e4768301330683b9a8f010dc7c0f20e94&q=' + query, function (error, response, body){
+  request('https://www.pricecharting.com/api/product?t=8f2cd364cce4038e40f767cbf5f5b77ad7fcd29e&q=' + query, function (error, response, body){
     if (!error && response.statusCode == 200) {
       var info = JSON.parse(body)
       // do more stuff
@@ -186,7 +181,7 @@ app.get("/items/api/search/itemprice/:fq", function(req,res){
 //pricecharting search multiple products
 app.get("/items/api/search/products/:fq", function(req, res){
   var query = req.params.fq;
-  request('https://www.pricecharting.com/api/products?t=8ee1e21e4768301330683b9a8f010dc7c0f20e94&q=' + query, function (error, response, body){
+  request('https://www.pricecharting.com/api/products?t=8f2cd364cce4038e40f767cbf5f5b77ad7fcd29e&q=' + query, function (error, response, body){
     if (!error && response.statusCode == 200) {
       var info = JSON.parse(body)
       var gameNames = [];
